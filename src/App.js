@@ -46,14 +46,20 @@ function App(proops){
     getData();
   }
 
-  const [up,setUp] = useState(2);
+  const [up,setUp] = useState(1);
   const [info,setInfo] = useState([]);
   const [sele, setElem] = useState({});
+  const [bbcc, setBc] = useState("steelblue");
   const cssOn = {
     color: proops.color,
-    fontSize: proops.size
+    fontSize: proops.size,
   };
+
+
   const pId = useRef(1) ;
+  const pBc = useRef("gray");
+
+
   // useEffect tiene efectos sobre el Dom a diferencia del useRef
   useEffect( () => {getDatos();}, [up] ) ;
 
@@ -62,6 +68,8 @@ function App(proops){
       if( i.id == pId.current.value ) {
         setElem( i );
       }
+    setBc(pBc.current.value) ; 
+
     }
     for( let x=0 ; x < info.length ; x++) {
       if( info[x]["id"] == pId.current.value) {
@@ -81,16 +89,18 @@ function App(proops){
         </ul>
       </nav>
     <div>
-      <Comp1 obj={sele} />
+      <Comp1 obj={sele} bc={bbcc}/>
     </div>
       
       <input ref={pId} type="text" placeholder="buscar"></input>
-      
-      <button onClick={upgdUp}>Upgrade</button>
-      <button onClick={dwnUp}>Downgrade</button>  
-      <button onClick={verInfo}>Sourse</button>
 
-      <div>
+      <input ref={pBc} type="text" placeholder="Color.." onChange={verInfo}/>
+      
+      <button onClick={upgdUp}>Sube de Nivel</button>
+      <button onClick={dwnUp}>Baja de Nivel, pero ¿Quien quiere bajar de nivel?</button>  
+      <button onClick={verInfo}>Buscar</button>
+
+      {/* <div>
         <ul>
           {info.map(
             (d,i) => (
@@ -104,7 +114,7 @@ function App(proops){
             )
           )}
         </ul>
-      </div>
+      </div> */}
     </div>
   );
 }

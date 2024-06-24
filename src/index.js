@@ -6,8 +6,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
   function ref () {
     root.render(
       <div>
-        <App color="green" size="20px" />  
-        <App color="purple" size="30px" />
+        <App color="blue" size="20px"/>
       </div>
       
     );
