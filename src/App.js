@@ -1,6 +1,7 @@
 // // --->USAMOS EL ROOT QUE LLAMAMOS CON LA FUNCION PARA HACER UN RELOJ DEL TIEMPO LOCAL<---
 
-import { useState } from "react";
+import { useState,useRef,useEffect } from "react";
+import Comp1 from './componentes/Comp-1';
 
 
 // function App1() {
@@ -47,11 +48,29 @@ function App(proops){
 
   const [up,setUp] = useState(2);
   const [info,setInfo] = useState([]);
-
+  const [sele, setElem] = useState({});
   const cssOn = {
     color: proops.color,
     fontSize: proops.size
   };
+  const pId = useRef(1) ;
+  // useEffect tiene efectos sobre el Dom a diferencia del useRef
+  useEffect( () => {getDatos();}, [up] ) ;
+
+  function verInfo() {
+    for( const i of info ){
+      if( i.id == pId.current.value ) {
+        setElem( i );
+      }
+    }
+    for( let x=0 ; x < info.length ; x++) {
+      if( info[x]["id"] == pId.current.value) {
+        console.log("===> " + JSON.stringify( info[x])) ;
+        setElem( info[x] )
+        console.log( info[x].email );
+      }
+    }
+  }
 
   return (
     <div style={cssOn}>
@@ -61,28 +80,33 @@ function App(proops){
           <li>Mi Nivel es {up}</li>
         </ul>
       </nav>
+    <div>
+      <Comp1 obj={sele} />
+    </div>
+      
+      <input ref={pId} type="text" placeholder="buscar"></input>
+      
       <button onClick={upgdUp}>Upgrade</button>
-      <button onClick={dwnUp}>Downgrade</button>
-      <button onClick={getDatos}>consultar</button>
+      <button onClick={dwnUp}>Downgrade</button>  
+      <button onClick={verInfo}>Sourse</button>
 
       <div>
         <ul>
           {info.map(
             (d,i) => (
               <li key={i}>
-                <h3>{d.id}</h3>
+                <h2>{d.id}</h2>
                 <p>{d.postId}</p>
                 <p>{d.name}</p>
                 <p>{d.email}</p>
                 <p>{d.body}</p>
-            </li>
+              </li>
             )
           )}
         </ul>
       </div>
-
     </div>
   );
 }
-
+// constants.js
 export default App;
