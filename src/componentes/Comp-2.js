@@ -1,6 +1,8 @@
+import './Estilos.css'
+
 function Comp2() {
     return(
-        <div>
+        <div className='rojo'>
             <h1>Hola soy componente numero 2</h1>
         </div>
     );
