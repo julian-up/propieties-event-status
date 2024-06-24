@@ -1,8 +1,18 @@
+import { useRef } from "react";
+
 function Comp1(proops) {
 
     const estilo = {
         backgroundColor: proops.bc
     }
+
+    // CHAT
+
+    let msgXPapa = () => {
+        proops.fPapa(msg.current.value);
+    }
+
+    const msg = useRef("Hola Mundo");
 
     return (
         <div>
@@ -32,6 +42,9 @@ function Comp1(proops) {
                     </tbody>
                 </table>
             </div>
+            {/* // CHAT */}
+            <input ref={msg} type="text"placeholder="Cambiar el mensaje"></input>
+            <button onClick={msgXPapa}>Enviar msg...</button>
         </div>
         
     );

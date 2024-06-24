@@ -2,6 +2,7 @@
 
 import { useState,useRef,useEffect } from "react";
 import Comp1 from './componentes/Comp-1';
+import Comp2 from './componentes/Comp-2';
 
 
 // function App1() {
@@ -14,6 +15,7 @@ import Comp1 from './componentes/Comp-1';
 //   // );
 // }
 
+// la funcion de aumentar o disminuir el setUp
 function App(proops){ 
   let upgdUp = () => {
     setUp( up+1 ) ;
@@ -21,6 +23,9 @@ function App(proops){
   let dwnUp = () => {
     setUp( up-1 );
   }
+
+  // Funcion asincrona donde tenemos un moderno fetch retornando los datos de un url de objetos.JSON que nos sirven para hacer un reocrrido de datos
+
   async function getData() {
     try {
       const rta = await fetch('http://jsonplaceholder.typicode.com/posts/1/comments',{
@@ -31,29 +36,36 @@ function App(proops){
       });
 
       if (!rta.ok) {
+// si el estado de la respuesta es Diferente de OK donde (ok = true) lanzara un error new error, como 404. 500 noserver etc, adjunto el estado de la respuesta y el porque de su fallo
         throw new Error('Red Error: ' + rta.status);
+
       }
+// await espera que rta se convieta en un objeto json y la funcion de este objeto es igual a la variable datos declarada con LET
       let datos = await rta.json();
       
       setInfo( datos ) ;
 
+// recoge todos los errores
     } catch (error) {
       console.log("ERROR: " + error);
     }
   };
 
+
   function getDatos() {
     getData();
   }
 
-  const [up,setUp] = useState(1);
-  const [info,setInfo] = useState([]);
+  // el use StaticRange, se importa, tenemos el valor y como vamos a actualizar ese valor y luego decirmos el valor principal
+  const [up,setUp] = useState(0);
+  const [info,setInfo] = useState([]);//arreglo vacio que es llenado con la funcion datos recogida de la funcion json en await
   const [sele, setElem] = useState({});
   const [bbcc, setBc] = useState("steelblue");
   const cssOn = {
     color: proops.color,
     fontSize: proops.size,
   };
+  const [msg,setMsg] = useState("");
 
 
   const pId = useRef(1) ;
@@ -61,7 +73,17 @@ function App(proops){
 
 
   // useEffect tiene efectos sobre el Dom a diferencia del useRef
-  useEffect( () => {getDatos();}, [up] ) ;
+  useEffect(() => {
+    // se ejecuta como minimo una vez
+    getDatos();
+  },[up] ) ;
+
+  // aqui practicamos el useefect entendiendo que el use efect hara algo loq ue yo le diga siempre y cuando suceda algo, en este caso, se hara un console.log del use efect cada vez que yo cambie el mesaje de msg
+  useEffect(() =>{
+    console.log('useEffect');
+  },[msg])
+
+
 
   function verInfo() {
     for( const i of info ){
@@ -71,15 +93,22 @@ function App(proops){
     setBc(pBc.current.value) ; 
 
     }
+
     for( let x=0 ; x < info.length ; x++) {
       if( info[x]["id"] == pId.current.value) {
         console.log("===> " + JSON.stringify( info[x])) ;
         setElem( info[x] )
         console.log( info[x].email );
+      } else {
+        console.error("ERROR")
       }
     }
   }
 
+let msgDelHijo = (msgHijo) => {
+  console.log("===> " + msgHijo);
+  setMsg(msgHijo);
+}
   return (
     <div style={cssOn}>
       <h1>Hola MUNDO</h1>
@@ -89,17 +118,20 @@ function App(proops){
         </ul>
       </nav>
     <div>
-      <Comp1 obj={sele} bc={bbcc}/>
+      <Comp1 obj={sele} bc={bbcc} fPapa={msgDelHijo}/>
     </div>
       
       <input ref={pId} type="text" placeholder="buscar"></input>
 
       <input ref={pBc} type="text" placeholder="Color.." onChange={verInfo}/>
-      
+
+      <input ref={pBc} type="text" placeholder="Color.." onChange={verInfo}/>
+
       <button onClick={upgdUp}>Sube de Nivel</button>
       <button onClick={dwnUp}>Baja de Nivel, pero ¿Quien quiere bajar de nivel?</button>  
       <button onClick={verInfo}>Buscar</button>
-
+      <p>Mensaje del padre : {msg}</p>
+      <Comp2/>
       {/* <div>
         <ul>
           {info.map(
