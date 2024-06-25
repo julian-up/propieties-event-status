@@ -1,3 +1,35 @@
-.rojo {
-    background-color: #ff0000;
+.fondo {
+    background-color: #000000;
+}
+.texto {
+    color: #ffffff;
+}
+.optionsMenus {
+    position: relative;
+}
+button {
+    background-color: aqua;
+}
+.menuContent {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: darkslategrey;
+    padding: 10px;
+    border: 1px solid black;
+    display: none; /*empieza oculta*/
+}
+.menuContent {
+    display: block;
+}
+.menuContent ul {
+    list-style: none;
+    padding: 0;
+}
+.menuContent li {
+    margin-bottom: 5px;
+}
+.menuContent a{
+    text-decoration: none;
+    color: rgb(37, 137, 75);
 }

@@ -3,6 +3,7 @@
 import { useState,useRef,useEffect } from "react";
 import Comp1 from './componentes/Comp-1';
 import Comp2 from './componentes/Comp-2';
+import Menu from './componentes/Menu';
 
 
 // function App1() {
@@ -66,7 +67,7 @@ function App(proops){
     fontSize: proops.size,
   };
   const [msg,setMsg] = useState("");
-
+  const [bCom,setBCom] = useState("true");  
 
   const pId = useRef(1) ;
   const pBc = useRef("gray");
@@ -109,17 +110,31 @@ let msgDelHijo = (msgHijo) => {
   console.log("===> " + msgHijo);
   setMsg(msgHijo);
 }
+
+
+let cambiaComponente = () => {
+  setBCom(!bCom);
+}
   return (
     <div style={cssOn}>
+      <div>
+        <Menu/>
+      </div>      
+      { bCom && (
+      <div>
+        <Comp1 obj={sele} bc={bbcc} fPapa={msgDelHijo}/>
+      </div>
+      )}
+      { !bCom && (
+        <Comp2/>
+      )}
+
       <h1>Hola MUNDO</h1>
       <nav>
         <ul>
           <li>Mi Nivel es {up}</li>
         </ul>
       </nav>
-    <div>
-      <Comp1 obj={sele} bc={bbcc} fPapa={msgDelHijo}/>
-    </div>
       
       <input ref={pId} type="text" placeholder="buscar"></input>
 
@@ -131,7 +146,7 @@ let msgDelHijo = (msgHijo) => {
       <button onClick={dwnUp}>Baja de Nivel, pero ¿Quien quiere bajar de nivel?</button>  
       <button onClick={verInfo}>Buscar</button>
       <p>Mensaje del padre : {msg}</p>
-      <Comp2/>
+      
       {/* <div>
         <ul>
           {info.map(
@@ -147,6 +162,7 @@ let msgDelHijo = (msgHijo) => {
           )}
         </ul>
       </div> */}
+      <button onClick={cambiaComponente}>Cambiar de Componente</button>
     </div>
   );
 }

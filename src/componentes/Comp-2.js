@@ -2,8 +2,8 @@ import './Estilos.css'
 
 function Comp2() {
     return(
-        <div className='rojo'>
-            <h1>Hola soy componente numero 2</h1>
+        <div className='fondo'>
+            <h1 className='texto'>Hola soy componente numero 2</h1>
         </div>
     );
 }
